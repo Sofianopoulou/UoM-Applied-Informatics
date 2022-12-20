@@ -197,7 +197,8 @@ public class Main {
 						distance=0;
 						for(int y=0; y<allAttributes.size()-1; y++)
 						{
-							distance += Math.pow(allElements.get(j).getAttributes().get(y).getData().get(0) - allElements.get(i).getAttributes().get(y).getData().get(0), 2);
+							distance += Math.pow(allElements.get(j).getAttributes().get(y).getData().get(0) 
+									     - allElements.get(i).getAttributes().get(y).getData().get(0), 2);
 						}
 						distances.add(distance);
 					}
@@ -215,7 +216,7 @@ public class Main {
 							}
 						}
 						
-						classes.add(allElements.get(index+x).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0)); 			//k nearest classes
+						classes.add(allElements.get(index+x).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0)); 			
 						distances.remove(index);
 					}
 					
