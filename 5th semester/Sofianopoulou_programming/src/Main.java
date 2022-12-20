@@ -25,21 +25,21 @@ public class Main {
 			FileReader filereader = new FileReader(file);
 			BufferedReader br = new BufferedReader(filereader);
 			
-			ArrayList<Attribute> allAttributes = new ArrayList<Attribute>(); 						//all the attributes from the csv file
+			ArrayList<Attribute> allAttributes = new ArrayList<Attribute>(); 				//all the attributes from the csv file
 			
-			String line = br.readLine();											//read 1st line
-			String[] words = line.split(",");										//split 1st line to get all the attributes
+			String line = br.readLine();									//read 1st line
+			String[] words = line.split(",");								//split 1st line to get all the attributes
 			
-			//Äçìéïõñãþ objects ôýðïõ attribute
+			//Creating attributes
 			for(String s : words) {
 				allAttributes.add(new Attribute(s));
 			}		
 			
 			//Adding the data to the attribute they belong to	
-			line = br.readLine(); 													//skip 1st line
-			while(line != null)  													//until the end of the csv file
+			line = br.readLine(); 										//skip 1st line
+			while(line != null)  										//until the end of the csv file
 			{
-				words = line.split(","); 											//String table for the 1st line
+				words = line.split(","); 								//String table for the 1st line
 				for(int i=0; i<allAttributes.size()-1; i++) 
 				{						
 					try 
@@ -97,13 +97,13 @@ public class Main {
 				writer.write(allAttributes.get(allAttributes.size()-1).getName());
 				writer.write(System.lineSeparator());
 				
-				for(int i=0; i<allAttributes.get(0).getData().size(); i++) 							//for all the data
+				for(int i=0; i<allAttributes.get(0).getData().size(); i++) 				//for all the data
 				{
-					for(int x=0; x<allAttributes.size()-1; x++)								//for all the attributes
+					for(int x=0; x<allAttributes.size()-1; x++)					//for all the attributes
 					{
-						writer.write(allAttributes.get(x).getData().get(i).toString() + ", ");				//write the i element of the x attribute
+						writer.write(allAttributes.get(x).getData().get(i).toString() + ", ");	//write the i element of the x attribute
 					}
-					writer.write(allAttributes.get(allAttributes.size()-1).getAllClasses().get(i));				//write the i class
+					writer.write(allAttributes.get(allAttributes.size()-1).getAllClasses().get(i));	//write the i class
 					writer.write(System.lineSeparator());
 				}
 				
@@ -147,10 +147,10 @@ public class Main {
 				}
 				
 				//reading the lines of newNormalizedDataset 
-				newLine = newBr.readLine(); 											//skip the 1st line
+				newLine = newBr.readLine(); 								//skip the 1st line
 				Integer lineCount=0;
 				
-				while(newLine != null)  											//until the end of the file
+				while(newLine != null)  								//until the end of the file
 				{
 					words = newLine.split(",");
 					
