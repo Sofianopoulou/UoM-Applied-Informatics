@@ -364,7 +364,8 @@ public class Main {
 							distanceIB2 = 0;
 							for(int m=0; m<allAttributes.size()-1; m++)									//for each attribute of the element
 							{
-								distanceIB2 += Math.pow(TS.get(0).getAttributes().get(m).getData().get(0) - CS.get(y).getAttributes().get(m).getData().get(0),2);
+								distanceIB2 += Math.pow(TS.get(0).getAttributes().get(m).getData().get(0) 
+											- CS.get(y).getAttributes().get(m).getData().get(0),2);
 							}
 							distancesIB2.add(distanceIB2);
 						}
