@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Attribute {
 	
 	private ArrayList<Double> data = new ArrayList<Double>(); 		//List of data that the attribute contains.
-	private ArrayList<String> data_class = new ArrayList<String>(); //List of data's class
+	private ArrayList<String> data_class = new ArrayList<String>(); 	//List of data's class
 	
 	private String name;
 	
