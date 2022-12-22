@@ -359,10 +359,10 @@ public class Main {
 					//2nd scenario: CS has more than one elements
 					if(CS.size()>1)
 					{
-						for(int y=0; y<CS.size(); y++)												//for all elements of CS 
+						for(int y=0; y<CS.size(); y++)						//for all elements of CS 
 						{
 							distanceIB2 = 0;
-							for(int m=0; m<allAttributes.size()-1; m++)									//for each attribute of the element
+							for(int m=0; m<allAttributes.size()-1; m++)			//for each attribute of the element
 							{
 								distanceIB2 += Math.pow(TS.get(0).getAttributes().get(m).getData().get(0) 
 											- CS.get(y).getAttributes().get(m).getData().get(0),2);
@@ -376,7 +376,7 @@ public class Main {
 							if(distancesIB2.get(z) <= min_distanceIB2)
 							{
 								min_distanceIB2 = distancesIB2.get(z);
-								indexIB2=z;												//index shows the nearest CS element
+								indexIB2=z;						//index shows the nearest CS element
 							}	
 						}
 						
