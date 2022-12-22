@@ -25,21 +25,21 @@ public class Main {
 			FileReader filereader = new FileReader(file);
 			BufferedReader br = new BufferedReader(filereader);
 			
-			ArrayList<Attribute> allAttributes = new ArrayList<Attribute>(); 		//εδώ θα βάλω όλα τα attributes του csv αρχείου
+			ArrayList<Attribute> allAttributes = new ArrayList<Attribute>(); 				//all the attributes from the csv file
 			
-			String line = br.readLine();											// διαβάζω την 1η γραμμή
-			String[] words = line.split(",");										//split την 1η γραμμή για να πάρω τα attributes
+			String line = br.readLine();									//read 1st line
+			String[] words = line.split(",");								//split 1st line to get all the attributes
 			
-			//Δημιουργώ objects τύπου attribute
+			//Creating attributes
 			for(String s : words) {
 				allAttributes.add(new Attribute(s));
 			}		
 			
-			//Προσθέτω τα στοιχεία κάθε στήλης στο attribute που ανήκουν	
-			line = br.readLine(); 													//για να παραλείψω την 1η γραμμή
-			while(line != null)  													//μέχρι να φτάσω στην τελευταία γραμμή του αρχείου
+			//Adding the data to the attribute they belong to	
+			line = br.readLine(); 										//skip 1st line
+			while(line != null)  										//until the end of the csv file
 			{
-				words = line.split(","); 											//λίστα String που θα περιλαμβάνει το περιεχόμενο κάθε γραμμής
+				words = line.split(","); 								//String table for the 1st line
 				for(int i=0; i<allAttributes.size()-1; i++) 
 				{						
 					try 
@@ -47,29 +47,29 @@ public class Main {
 					catch (Exception e) {}
 				}
 				
-				//Αποθήκευση των κλάσεων
+				//Saving the classes
 				try 
 					{ allAttributes.get(allAttributes.size()-1).addClass(words[allAttributes.size()-1]); }
 				catch (Exception e) {}
 				line = br.readLine();
 			}
 			
-			//Εκτυπώνω τα δεδομένα των attributes της allAttributes ArrayList
+			//Print the attribute data of allAttributes ArrayList
 			System.out.println("The given dataset is: ");
 			for(int i=0; i<allAttributes.size()-1; i++)
 				System.out.println(allAttributes.get(i).getName() + ": " + allAttributes.get(i).getData());
 			System.out.println(allAttributes.get(allAttributes.size()-1).getName() + ": " + allAttributes.get(allAttributes.size()-1).getAllClasses());
 			System.out.println();
 			
-			//Κάνω κανονικοποίηση
+			//Normalizing
 			double max,min,num;
 			for(int i=0; i<allAttributes.size()-1; i++)
 				{
-					//Βρες max και min ολόκληρου του attribute
+					//Find max and min from the attribute
 					max = allAttributes.get(i).findMax();
 					min = allAttributes.get(i).findMin();
 					
-					//Κάνε κανονικοποίηση
+					//Do normalization
 					for(int x=0; x<allAttributes.get(i).getData().size(); x++) 
 					{
 						num = ( (allAttributes.get(i).getData().get(x) - min)	/ (max-min) );	
@@ -84,26 +84,26 @@ public class Main {
 			System.out.println("\nYou can find the normalized dataset at: newNormalizedDataset.csv that was just created\n\n\n");
 			
 
-			//Περνάω τις normalized τιμές σε νέο csv αρχείο, κάνοντές τες String			
+			//Writing the normalized values at a new csv file			
 			try
 			{
 				File f = new File("newNormalizedDataset.csv");
 				FileWriter writer = new FileWriter(f);
 				
-				//Γράφω πρώτα τα ονόματα των attributes (χωρίς την κλάση)
+				//writing attributes first
 				for(int i=0; i<allAttributes.size()-1; i++) {
 					writer.write(allAttributes.get(i).getName() + ", ");
 				}
 				writer.write(allAttributes.get(allAttributes.size()-1).getName());
 				writer.write(System.lineSeparator());
 				
-				for(int i=0; i<allAttributes.get(0).getData().size(); i++) 							//για όσο αριθμό δεδομένων έχεις
+				for(int i=0; i<allAttributes.get(0).getData().size(); i++) 				//for all the data
 				{
-					for(int x=0; x<allAttributes.size()-1; x++)										//για κάθε στήλη 
+					for(int x=0; x<allAttributes.size()-1; x++)					//for all the attributes
 					{
-						writer.write(allAttributes.get(x).getData().get(i).toString() + ", ");		//γράψε το i'οστό στοιχείο του attribute με σειρά x 
+						writer.write(allAttributes.get(x).getData().get(i).toString() + ", ");	//write the i element of the x attribute
 					}
-					writer.write(allAttributes.get(allAttributes.size()-1).getAllClasses().get(i));	//γράψε την i'στή κλάση
+					writer.write(allAttributes.get(allAttributes.size()-1).getAllClasses().get(i));	//write the i class
 					writer.write(System.lineSeparator());
 				}
 				
@@ -126,18 +126,18 @@ public class Main {
 				FileReader newFileReader = new FileReader(newFile);
 				BufferedReader newBr = new BufferedReader(newFileReader);
 				
-				//Ο χρήστης διαλέγει το k για τον ENN
+				//The user choses k for ENN algorthm
 				int k;
 				Scanner scanner = new Scanner(System.in);	
 				System.out.print("Choose k for ENN algorithm: ");
 				k = scanner.nextInt();
 				scanner.close();
 				
-				ArrayList<Element> allElements = new ArrayList<Element>();							//όλα τα σημεία
+				ArrayList<Element> allElements = new ArrayList<Element>();							
 				String newLine=newBr.readLine();
 				String[] attributes = newLine.split(",");
 				 
-				//Για κάθε element δημιουργώ το σετ των Attributes
+				//For each element create the set of attributes
 				for(int i=0; i<allAttributes.get(0).getData().size(); i++)
 				{
 					allElements.add(new Element(i));
@@ -146,15 +146,15 @@ public class Main {
 					}
 				}
 				
-				//Διάβασμα των γραμμών του newNormalizedDataset 
-				newLine = newBr.readLine(); 													//για να παραλείψω την 1η γραμμή
+				//reading the lines of newNormalizedDataset 
+				newLine = newBr.readLine(); 								//skip the 1st line
 				Integer lineCount=0;
 				
-				while(newLine != null)  														//μέχρι να φτάσω στην τελευταία γραμμή του αρχείου
+				while(newLine != null)  								//until the end of the file
 				{
 					words = newLine.split(",");
 					
-					//Γεμίζω το ArrayList allElements
+					//Filling the ArrayList allElements
 					for(int i=0; i<allAttributes.size()-1; i++)
 					{
 						try
@@ -170,7 +170,7 @@ public class Main {
 				}
 				
 				
-				//Υπολογισμός ευκλείδιας απόστασης όλων των σημείων allElements 
+				//Calculating euclidian distance for allElements 
 				ArrayList<Double> distances = new ArrayList<Double>();
 				ArrayList<String> classes = new ArrayList<String>();				
 				Map<String, Integer> hshmap = new HashMap<String, Integer>();
@@ -191,18 +191,19 @@ public class Main {
 					maxStr = "";
 					maxVal = 0;
 					
-					//Εύρεση όλων των αποστάσεων
+					//Calculating all the distances
 					for(int j=0; j<allElements.size(); j++)
 					{
 						distance=0;
 						for(int y=0; y<allAttributes.size()-1; y++)
 						{
-							distance += Math.pow(allElements.get(j).getAttributes().get(y).getData().get(0) - allElements.get(i).getAttributes().get(y).getData().get(0), 2);
+							distance += Math.pow(allElements.get(j).getAttributes().get(y).getData().get(0) 
+									     - allElements.get(i).getAttributes().get(y).getData().get(0), 2);
 						}
 						distances.add(distance);
 					}
 					
-					//Εύρεση k κοντινότερων στοιχείων
+					//Finding k nearest elements
 					for(int x=0; x<k; x++)
 					{
 						min_distance = 100;
@@ -215,11 +216,11 @@ public class Main {
 							}
 						}
 						
-						classes.add(allElements.get(index+x).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0)); 			//οι k κοντινότερες κλάσεις
+						classes.add(allElements.get(index+x).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0)); 			
 						distances.remove(index);
 					}
 					
-					//η κυρίαρχη κλάση
+					//The major class
 					for(String s : classes)
 					{
 						if(hshmap.keySet().contains(s))
@@ -267,7 +268,7 @@ public class Main {
 					System.out.println();
 				}
 
-				//Περνάω τις κατηγοριοποιημένες τιμές σε νέο csv αρχείο, κάνοντές τες String			
+				//Writing the edited dataset at a new csv file			
 				try
 				{
 					File f = new File("newENNDataset.csv");
@@ -308,7 +309,7 @@ public class Main {
 				ArrayList<Element> TS = allElements;
 				
 
-				//Επιλέγω το πρώτο στοιχείο του TS και το μετακινώ στον CS
+				//Moving the first element of TS to CS
 				CS.add(new Element(0));
 				for(int i=0; i<allAttributes.size()-1; i++)	
 				{
@@ -320,7 +321,7 @@ public class Main {
 				TS.remove(0);
 				
 				
-				//Για όλα τα elements του TS βρίσκω το κοντινότερο στον CS
+				//For all elements of TS find the nearest at CS
 				ArrayList<Double> distancesIB2 = new ArrayList<Double>();
 				double min_distanceIB2;
 				double distanceIB2;
@@ -339,10 +340,10 @@ public class Main {
 					System.out.println(TS.get(0).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0).equals(CS.get(0).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0)));
 					*/
 					
-					//1η περίπτωση: o CS έχει 1 στοιχείο και οι κλάσεις είναι διαφορετικές 
-					if(CS.size()==1 && (!TS.get(0).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0).equals(CS.get(0).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0))))																	//αν ο CS έχει μόνο ένα στοιχείο σύγκρινε κατευθείαν τις κλάσεις
+					//1st scenario: CS has 1 element and the classes are different
+					if(CS.size()==1 && (!TS.get(0).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0).equals(CS.get(0).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0))))																	//Γ΅Γ­ Γ― CS ΓΓ·Γ¥Γ© Γ¬ΓΌΓ­Γ― ΓΓ­Γ΅ Γ³Γ΄Γ―Γ©Γ·Γ¥ΓΓ― Γ³Γ½Γ£ΓªΓ±Γ©Γ­Γ¥ ΓªΓ΅Γ΄Γ¥ΓµΓ¨Γ¥ΓΓ΅Γ­ Γ΄Γ©Γ² ΓªΓ«ΓΓ³Γ¥Γ©Γ²
 					{
-						//πρόσθεσε το στοιχείο του TS στον CS
+						//Moving the element of TS to CS
 						indexCS++;
 						CS.add(new Element(indexCS));
 						for(int x=0; x<allAttributes.size()-1; x++)
@@ -355,32 +356,33 @@ public class Main {
 						
 					}
 
-					//2η περίπτωση: ο CS έχει πολλά στοιχεία 
+					//2nd scenario: CS has more than one elements
 					if(CS.size()>1)
 					{
-						for(int y=0; y<CS.size(); y++)													//για όλα τα elements του CS 
+						for(int y=0; y<CS.size(); y++)												//for all elements of CS 
 						{
 							distanceIB2 = 0;
-							for(int m=0; m<allAttributes.size()-1; m++)									//για κάθε attribute του element
+							for(int m=0; m<allAttributes.size()-1; m++)									//for each attribute of the element
 							{
-								distanceIB2 += Math.pow(TS.get(0).getAttributes().get(m).getData().get(0) - CS.get(y).getAttributes().get(m).getData().get(0),2);
+								distanceIB2 += Math.pow(TS.get(0).getAttributes().get(m).getData().get(0) 
+											- CS.get(y).getAttributes().get(m).getData().get(0),2);
 							}
 							distancesIB2.add(distanceIB2);
 						}
 					
-						//Εύρεση μικρότερης απόστασης
+						//Find min distance
 						for(int z=0; z<distancesIB2.size(); z++) 	
 						{
 							if(distancesIB2.get(z) <= min_distanceIB2)
 							{
 								min_distanceIB2 = distancesIB2.get(z);
-								indexIB2=z;																//ο index δείχνει ποιο σημείο του CS είναι πιο κοντά 
+								indexIB2=z;												//index shows the nearest CS element
 							}	
 						}
 						
 						//System.out.println(min_distanceIB2 + " at " + indexIB2);
 					
-						//Σύγκριση κλάσεων
+						//Compare the classes
 						if(!TS.get(0).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0).equals(CS.get(indexIB2).getAttributes().get(allAttributes.size()-1).getAllClasses().get(0)));	
 						{
 							indexCS++;
@@ -421,7 +423,7 @@ public class Main {
 				if(TS.isEmpty()) System.out.println("TS is empty :)");
 				
 				
-				//Περνάω τις reduced τιμές σε νέο csv αρχείο, κάνοντές τες String			
+				//Writing the reduced elements at a new csv file		
 				try
 				{
 					File f = new File("reducedDatasetIB2.csv");
