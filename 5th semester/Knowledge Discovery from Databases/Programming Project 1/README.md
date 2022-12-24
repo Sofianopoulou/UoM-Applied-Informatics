@@ -1,5 +1,5 @@
 In Programming Project 1 you will find the implementation of: 
-  1. Normalization of given dataset.
+  1. Normalization of given dataset
   2. The editing algorithm ENN-rule and 
   3. The instance reduction algorithm IB2. 
   
