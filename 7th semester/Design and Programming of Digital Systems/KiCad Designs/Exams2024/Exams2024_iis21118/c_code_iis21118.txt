@@ -1,0 +1,54 @@
+// C++ code
+// iis21118
+
+const int tempSensorPinOne = A0;
+const int tempSensorPinTwo = A1;
+const int photoResistorPin = A2;
+const int redLed = 3;
+const int greenLed = 2;
+int temperatureOne, temperatureTwo, photoResistorState;
+float degreesOne, degreesTwo, difference;
+
+void setup()
+{
+  pinMode(tempSensorPinOne, INPUT);
+  pinMode(tempSensorPinTwo, INPUT);
+  pinMode(photoResistorPin, INPUT);
+  pinMode(redLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{ 
+  photoResistorState = analogRead(photoResistorPin);
+  Serial.println(photoResistorState);
+  
+  if(photoResistorState > 400) {
+    temperatureOne = analogRead(tempSensorPinOne);
+  	temperatureTwo = analogRead(tempSensorPinTwo);
+  	degreesOne = ( float(temperatureOne) * 5 / 1023 ) * 100 - 50;
+  	degreesTwo = ( float(temperatureTwo) * 5 / 1023 ) * 100 - 50;
+    
+    difference = abs(degreesOne - degreesTwo);
+    Serial.println(difference);
+    
+    if(difference > 15) {
+      digitalWrite(redLed, HIGH);
+      digitalWrite(greenLed, LOW);
+    }
+    else {
+      digitalWrite(greenLed, HIGH);
+      digitalWrite(redLed, LOW);
+    }
+  }
+  else {
+      digitalWrite(greenLed, LOW);
+      digitalWrite(redLed, LOW);
+  }
+     
+  while (photoResistorState == analogRead(photoResistorPin)) {
+    delay(200); 
+  }
+      
+}
